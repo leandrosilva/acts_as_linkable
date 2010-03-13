@@ -20,9 +20,9 @@ Add link to:
 
 Gives sugar methods:
 
-	payment.registration_link             # http://payment.com/registration
+	payment.links[:registration]          # http://payment.com/registration
 	payment.is_linked_to? :registration   # true
-	payment.go_to_link :registration      # Submit to link
+	payment.go_to_link! :registration     # Submit to link
 
 And payment.to_xml dump this:
 
