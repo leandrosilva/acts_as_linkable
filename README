@@ -22,13 +22,13 @@ Gives sugar methods:
 
 	payment.links[:registration]          # http://payment.com/registration
 	payment.is_linked_to? :registration   # true
-	payment.go_to_link! :registration     # Submit to link
 
 And payment.to_xml dump this:
 
 	<payment>
 		...
-		<atom:link rel='registration' href='http://payment.com/registration' type='application/xml' />
+		<atom:link rel='registration' href='http://payment.com/registration'
+							 type='application/xml' xmlns:atom='http://www.w3.org/2005/Atom'/>
 	</payment>
 
 And so more:

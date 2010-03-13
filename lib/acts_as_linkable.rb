@@ -13,8 +13,8 @@ module CodeZone
       end
   
       module InstanceMethods
-        def link_to(link_spec = nil)
-          link_spec.each_pair do |name, uri|
+        def link_to(link = nil)
+          link.each_pair do |name, uri|
             raise ArgumentError.new('Argument must be :name => "uri".') unless name && uri
 
             links[name] = uri
@@ -29,38 +29,37 @@ module CodeZone
           links.include? name
         end
         
-        def go_to_link!(name)
-          puts "TODO should submit to #{name} (#{uri})."
-        end
-        
         def to_xml(args = {})
           xml = super(args)
 
-          xml_doc = Nokogiri::XML(xml)
+          doc = Nokogiri::XML(xml)
 
           links.each_pair do |name, uri|
-            link_node = Nokogiri::XML::Node.new('atom:link', xml_doc)
-            link_node['rel'] = name.to_s
-            link_node['href'] = uri
-            link_node['type'] = 'application/xml'
+            node = Nokogiri::XML::Node.new('atom:link', doc)
+            node['rel'] = name.to_s
+            node['href'] = uri
+            node['type'] = 'application/xml'
+            node['xmlns:atom'] = 'http://www.w3.org/2005/Atom'
 
-            xml_doc.root << link_node
+            doc.root << node
           end
 
-          xml = xml_doc.to_xml
+          xml = doc.to_xml
         end
       end
       
       module SingletonMethods
         def from_xml(xml)
-          payment = super(xml)
-
-          xml_doc = Nokogiri::XML(xml)
+          links = {}
           
-          xml_doc.xpath('//link').each do |link_node|
-            payment.link_to link_node['rel'].to_sym => link_node['href']
+          doc = Nokogiri::XML(xml)
+          doc.xpath('//atom:link', 'atom' => 'http://www.w3.org/2005/Atom').each do |node|
+            links[node['rel'].to_sym] = node['href']
+            node.remove
           end
           
+          payment = super(doc.to_xml)
+          payment.links.merge! links
           payment
         end
       end
