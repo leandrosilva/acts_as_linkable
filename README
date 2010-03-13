@@ -1,0 +1,38 @@
+ActsAsLinkable
+==============
+
+=== Install
+
+	rails plugin install git://github.com/leandrosilva/acts_as_linkable.git
+
+== Example
+
+Make mode linkable:
+
+	class Payment < ActiveRecord::Base
+	  acts_as_linkable
+	end
+
+Add link to:
+
+	payment = Payment.new
+	payment.link_to :registration => 'http://payment.com/registration'
+
+Gives sugar methods:
+
+	payment.registration_link             # http://payment.com/registration
+	payment.is_linked_to? :registration   # true
+	payment.go_to_link :registration      # Submit to link
+
+And payment.to_xml dump this:
+
+	<payment>
+		...
+		<atom:link rel='registration' href='http://payment.com/registration' type='application/xml' />
+	</payment>
+
+And so more:
+
+	Payment.from_xml(the_xml_above)       # Automatically call payment.link_to for each atom link
+
+Copyright (c) 2010 Leandro Silva (CodeZone) <leandrodoze@gmail.com>, released under the MIT license
