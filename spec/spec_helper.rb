@@ -21,22 +21,22 @@ end
 require File.dirname(File.expand_path(__FILE__)) + '/../lib/acts_as_linkable.rb'
 
 #
-# Sample model.
+# A simple sample model.
 #
-class Payment < ActiveRecord::Base
+class SimpleModel < ActiveRecord::Base
   acts_as_linkable
 end
 
 #
 # Helper methods for specs.
 #
-def get_mocked_payment
-  payment = mock(Payment)
+def mocked_model
+  model = mock(SimpleModel)
   
-  payment.class_eval do
+  model.class_eval do
     include CodeZone::Acts::Linkable
     acts_as_linkable
   end
   
-  payment
+  model
 end

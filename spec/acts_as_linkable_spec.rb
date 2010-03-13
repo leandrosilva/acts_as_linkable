@@ -1,34 +1,34 @@
 require 'spec_helper'
 
-describe CodeZone::Acts::Linkable do
-  context 'when a Payment model acts as linkable' do
+describe 'acts_as_linkable plugin' do
+  context 'when applyed to a model' do
     before(:all) do
-      @payment = get_mocked_payment
+      @model = mocked_model
     end
 
-    it 'should respond to link_to method' do
-      @payment.respond_to?(:link_to).should == true
+    it 'should add link_to method on that model' do
+      @model.respond_to?(:link_to).should == true
     end
     
-    it 'should respond to links method' do
-      @payment.respond_to?(:links).should == true
+    it 'should add links method on that model' do
+      @model.respond_to?(:links).should == true
     end
     
-    it 'should respond to is_linked_to? method' do
-      @payment.respond_to?(:is_linked_to?).should == true
+    it 'should add is_linked_to? method on that model' do
+      @model.respond_to?(:is_linked_to?).should == true
     end        
     
-    context 'and if a link is added' do
+    context 'and if a link is added on that model' do
       before(:all) do
-        @payment.link_to :registration => 'http://payment.com/registration'
+        @model.link_to :registration => 'http://model.com/registration'
       end
 
-      it 'should include :registration in links hash' do
-        @payment.links[:registration].should == 'http://payment.com/registration'
+      it 'should contains the added link on its links hash' do
+        @model.links[:registration].should == 'http://model.com/registration'
       end
 
-      it 'should is linked to :registration' do
-        @payment.is_linked_to?(:registration).should == true
+      it 'should is linked to the added link' do
+        @model.is_linked_to?(:registration).should == true
       end        
     end
   end
