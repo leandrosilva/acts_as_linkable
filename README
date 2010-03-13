@@ -1,7 +1,7 @@
 ActsAsLinkable
 ==============
 
-=== Install
+== Install
 
 	rails plugin install git://github.com/leandrosilva/acts_as_linkable.git
 
