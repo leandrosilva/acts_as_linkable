@@ -22,6 +22,7 @@ Gives sugar methods:
 
 	payment.links[:registration]          # http://payment.com/registration
 	payment.is_linked_to? :registration   # true
+	payment.link_for :registration        # http://payment.com/registration
 
 And payment.to_xml dump this:
 
