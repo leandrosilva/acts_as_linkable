@@ -29,6 +29,10 @@ module CodeZone
           links.include? name
         end
         
+        def link_for(name)
+          links[name]
+        end
+        
         def to_xml(args = {})
           xml = super(args)
 

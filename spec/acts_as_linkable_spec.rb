@@ -1,4 +1,4 @@
-require 'spec_helper'
+require File.dirname(File.expand_path(__FILE__)) + '/spec_helper.rb'
 
 describe 'acts_as_linkable plugin' do
   context 'when applyed to a model' do
@@ -16,7 +16,11 @@ describe 'acts_as_linkable plugin' do
     
     it 'should add is_linked_to? method on that model' do
       @model.respond_to?(:is_linked_to?).should == true
-    end        
+    end
+    
+    it 'should add link_for method on that model' do
+      @model.respond_to?(:link_for).should == true
+    end
     
     context 'and if a link is added on that model' do
       before(:all) do
@@ -29,6 +33,10 @@ describe 'acts_as_linkable plugin' do
 
       it 'should is linked to the added link' do
         @model.is_linked_to?(:registration).should == true
+      end        
+
+      it 'should return the added link' do
+        @model.link_for(:registration).should == 'http://model.com/registration'
       end        
     end
   end
